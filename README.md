@@ -1,125 +1,324 @@
+# Allure Création - E-commerce de Robes Élégantes
+
+Site e-commerce moderne pour la **location et la vente de robes haut de gamme**, construit avec Medusa.js et Next.js 15, inspiré du design élégant de Pronovias.
+
 <p align="center">
-  <a href="https://www.medusajs.com">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/59018053/229103275-b5e482bb-4601-46e6-8142-244f531cebdb.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    <img alt="Medusa logo" src="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
-    </picture>
-  </a>
+  <img src="public/hero.jpg" alt="Allure Création" />
 </p>
 
-<h1 align="center">
-  Medusa Next.js Starter Template
-</h1>
+## Fonctionnalités
 
-<p align="center">
-Combine Medusa's modules for your commerce backend with the newest Next.js 15 features for a performant storefront.</p>
+### E-commerce Complet (Medusa.js)
+- ✅ **Catalogue produits** avec filtres avancés
+- ✅ **Pages détail produit** avec galerie d'images
+- ✅ **Gestion du panier** persistant
+- ✅ **Processus de paiement** sécurisé (Stripe)
+- ✅ **Comptes clients** avec historique de commandes
+- ✅ **Collections** et catégories organisées
+- ✅ **Dashboard admin** complet
 
-<p align="center">
-  <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs welcome!" />
-  </a>
-  <a href="https://discord.gg/xpCwq3Kfn8">
-    <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
-  </a>
-  <a href="https://twitter.com/intent/follow?screen_name=medusajs">
-    <img src="https://img.shields.io/twitter/follow/medusajs.svg?label=Follow%20@medusajs" alt="Follow @medusajs" />
-  </a>
-</p>
+### Fonctionnalités Métier
+- 🔄 **Système de location** avec dates (à finaliser)
+- 📅 **Prise de rendez-vous** en boutique (prévu)
+- 🗺️ **Localisation des boutiques** (prévu)
+- ❤️ **Wishlist** personnalisée (prévu)
+- 👗 **Catégories spécialisées**:
+  - Robes de Mariée
+  - Robes de Soirée
+  - Robes de Cocktail
+  - Robes de Cérémonie
 
-### Prerequisites
+### Design & UX (Inspiré de Pronovias)
+- 🎨 **Design élégant** noir et blanc
+- 📱 **100% Responsive**
+- ⚡ **Performance optimale** avec Next.js 15
+- 🖼️ **Images haute résolution**
+- ✨ **Animations fluides**
 
-To use the [Next.js Starter Template](https://medusajs.com/nextjs-commerce/), you should have a Medusa server running locally on port 9000.
-For a quick setup, run:
+## Stack Technique
 
-```shell
+### Frontend
+- **Next.js 15** - App Router, Server Components, Server Actions
+- **React 19** - Dernière version avec RSC
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling utilitaire
+- **@medusajs/ui** - Composants UI optimisés
+- **Stripe** - Paiements sécurisés
+
+### Backend
+- **Medusa.js** - Framework e-commerce headless
+- **PostgreSQL** - Base de données
+- **Node.js** - Runtime
+
+## Démarrage Rapide
+
+### Prérequis
+
+- Node.js 18+
+- PostgreSQL
+- Yarn (recommandé) ou npm
+
+### 1. Installation du Backend Medusa
+
+```bash
+# Installation rapide
 npx create-medusa-app@latest
+
+# Suivez les instructions pour:
+# - Nom du projet: allure-creation-backend
+# - Template: Default (ou Demo store pour les données de test)
+# - Database: PostgreSQL
 ```
 
-Check out [create-medusa-app docs](https://docs.medusajs.com/learn/installation) for more details and troubleshooting.
+Plus de détails dans **[SETUP.md](./SETUP.md)**
 
-# Overview
+### 2. Configuration du Frontend
 
-The Medusa Next.js Starter is built with:
+```bash
+# Les dépendances sont déjà installées
+# Vérifiez juste le fichier .env.local
 
-- [Next.js](https://nextjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Typescript](https://www.typescriptlang.org/)
-- [Medusa](https://medusajs.com/)
-
-Features include:
-
-- Full ecommerce support:
-  - Product Detail Page
-  - Product Overview Page
-  - Product Collections
-  - Cart
-  - Checkout with Stripe
-  - User Accounts
-  - Order Details
-- Full Next.js 15 support:
-  - App Router
-  - Next fetching/caching
-  - Server Components
-  - Server Actions
-  - Streaming
-  - Static Pre-Rendering
-
-# Quickstart
-
-### Setting up the environment variables
-
-Navigate into your projects directory and get your environment variables ready:
-
-```shell
-cd nextjs-starter-medusa/
-mv .env.template .env.local
-```
-
-### Install dependencies
-
-Use Yarn to install all dependencies.
-
-```shell
-yarn
-```
-
-### Start developing
-
-You are now ready to start up your project.
-
-```shell
 yarn dev
 ```
 
-### Open the code and start customizing
+Le site sera accessible sur **http://localhost:8000**
 
-Your site is now running at http://localhost:8000!
+### 3. Dashboard Admin
 
-# Payment integrations
+Accédez à **http://localhost:9000/app** pour:
+- Ajouter des produits
+- Gérer les catégories
+- Voir les commandes
+- Configurer les paiements
 
-By default this starter supports the following payment integrations
+## Configuration
 
-- [Stripe](https://stripe.com/)
+### Variables d'environnement (.env.local)
 
-To enable the integrations you need to add the following to your `.env.local` file:
+```env
+# Backend Medusa
+MEDUSA_BACKEND_URL=http://localhost:9000
 
-```shell
-NEXT_PUBLIC_STRIPE_KEY=<your-stripe-public-key>
+# Clés publiques
+NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_test
+NEXT_PUBLIC_BASE_URL=http://localhost:8000
+NEXT_PUBLIC_DEFAULT_REGION=fr
+
+# Stripe (à configurer)
+NEXT_PUBLIC_STRIPE_KEY=pk_test_votre_cle
 ```
 
-You'll also need to setup the integrations in your Medusa server. See the [Medusa documentation](https://docs.medusajs.com) for more information on how to configure [Stripe](https://docs.medusajs.com/resources/commerce-modules/payment/payment-provider/stripe#main).
+### Intégration avec votre API Hetzner
 
-# Resources
+Si vous avez déjà un backend sur Hetzner, vous pouvez:
 
-## Learn more about Medusa
+1. **Option A**: Migrer vers Medusa pour bénéficier de toutes les fonctionnalités
+2. **Option B**: Créer un adaptateur pour connecter Medusa à votre API existante
+3. **Option C**: Installer Medusa sur votre serveur Hetzner
 
-- [Website](https://www.medusajs.com/)
-- [GitHub](https://github.com/medusajs)
-- [Documentation](https://docs.medusajs.com/)
+Voir **[SETUP.md](./SETUP.md)** pour plus de détails.
 
-## Learn more about Next.js
+## Structure du Projet
 
-- [Website](https://nextjs.org/)
-- [GitHub](https://github.com/vercel/next.js)
-- [Documentation](https://nextjs.org/docs)
+```
+.
+├── src/
+│   ├── app/                      # Next.js App Router
+│   │   └── [countryCode]/       # Routes par pays (fr, us, etc.)
+│   │       ├── (main)/          # Pages principales
+│   │       │   ├── page.tsx     # Page d'accueil
+│   │       │   ├── store/       # Catalogue
+│   │       │   ├── products/    # Détails produits
+│   │       │   └── collections/ # Collections
+│   │       ├── cart/            # Panier
+│   │       ├── checkout/        # Paiement
+│   │       └── account/         # Compte client
+│   ├── modules/                  # Composants fonctionnels
+│   │   ├── products/            # Carte produit, listes
+│   │   ├── cart/                # Composants panier
+│   │   ├── checkout/            # Formulaires paiement
+│   │   ├── account/             # Profil utilisateur
+│   │   └── layout/              # Header, Footer, Nav
+│   ├── lib/                      # Utilitaires
+│   │   ├── data/                # Appels API Medusa
+│   │   ├── hooks/               # Custom React hooks
+│   │   └── util/                # Fonctions utilitaires
+│   └── styles/                   # Styles globaux
+├── public/                       # Images et assets
+├── SETUP.md                      # Guide de configuration détaillé
+└── README.md                     # Ce fichier
+```
+
+## Personnalisation du Design (Inspiration Pronovias)
+
+### Déjà implémenté
+- Navigation propre et élégante
+- Mise en page épurée
+- Cards produits élégantes
+
+### À venir
+- [ ] Hero section avec vidéo/slider
+- [ ] Typographie personnalisée (Serif élégante)
+- [ ] Filtres visuels avancés
+- [ ] Animations au scroll
+- [ ] Mode sombre élégant
+- [ ] Galeries interactives
+
+## Système de Location
+
+Pour implémenter la location de robes:
+
+### 1. Ajouter des métadonnées aux produits
+
+Dans le dashboard admin, pour chaque produit:
+```json
+{
+  "rental_available": true,
+  "rental_price_per_day": 89,
+  "rental_deposit": 200,
+  "rental_min_days": 3
+}
+```
+
+### 2. Créer un module de location personnalisé
+
+```typescript
+// src/modules/rental/
+// - Sélecteur de dates
+// - Calcul du prix
+// - Vérification disponibilité
+// - Gestion des réservations
+```
+
+Documentation complète dans **[SETUP.md](./SETUP.md)**
+
+## Scripts Disponibles
+
+### Frontend (Next.js)
+```bash
+yarn dev          # Développement (port 8000)
+yarn build        # Build de production
+yarn start        # Production
+yarn lint         # Lint
+```
+
+### Backend (Medusa)
+```bash
+npm run dev       # Développement (port 9000)
+npm run build     # Build
+npm run seed      # Données de test
+```
+
+## Déploiement sur Hetzner
+
+### 1. Backend Medusa
+
+```bash
+# Installation sur le serveur
+ssh user@votre-serveur.com
+git clone votre-repo-backend
+cd allure-creation-backend
+npm install
+npm run build
+
+# Avec PM2
+pm2 start npm --name "allure-backend" -- start
+pm2 save
+pm2 startup
+```
+
+### 2. Frontend Next.js
+
+```bash
+# Build et déploiement
+yarn build
+pm2 start yarn --name "allure-frontend" -- start
+```
+
+### 3. Configuration Nginx
+
+```nginx
+server {
+    server_name api.allure-creation.fr;
+    location / {
+        proxy_pass http://localhost:9000;
+    }
+}
+
+server {
+    server_name allure-creation.fr;
+    location / {
+        proxy_pass http://localhost:8000;
+    }
+}
+```
+
+Plus de détails dans **[SETUP.md](./SETUP.md)**
+
+## Intégration Stripe
+
+1. Créer un compte sur https://stripe.com
+2. Récupérer les clés API (test puis production)
+3. Ajouter dans `.env.local`:
+   ```env
+   NEXT_PUBLIC_STRIPE_KEY=pk_test_...
+   ```
+4. Configurer les webhooks Stripe → Medusa
+
+Documentation: https://docs.medusajs.com/resources/commerce-modules/payment/payment-provider/stripe
+
+## Prochaines Étapes
+
+### Phase 1: Configuration Initiale ✅
+- [x] Installer le starter Medusa
+- [x] Configurer l'environnement
+- [x] Créer la documentation
+
+### Phase 2: Contenu & Produits ⏳
+- [ ] Démarrer le backend Medusa
+- [ ] Créer les catégories dans l'admin
+- [ ] Ajouter les premiers produits
+- [ ] Uploader les images haute résolution
+
+### Phase 3: Personnalisation Design 🎨
+- [ ] Personnaliser la page d'accueil (hero Pronovias-style)
+- [ ] Adapter les composants produits
+- [ ] Personnaliser la navigation
+- [ ] Ajouter les animations
+
+### Phase 4: Fonctionnalités Métier 👗
+- [ ] Implémenter le système de location
+- [ ] Ajouter le calendrier de réservation
+- [ ] Créer le système de prise de rendez-vous
+- [ ] Intégrer la wishlist
+
+### Phase 5: Production 🚀
+- [ ] Tests complets
+- [ ] Optimisation SEO
+- [ ] Déploiement sur Hetzner
+- [ ] Configuration SSL
+- [ ] Formation à l'utilisation
+
+## Ressources
+
+### Documentation
+- **Medusa**: https://docs.medusajs.com
+- **Next.js**: https://nextjs.org/docs
+- **Tailwind**: https://tailwindcss.com/docs
+
+### Support
+- **Medusa Discord**: https://discord.gg/medusajs
+- **GitHub Issues**: https://github.com/medusajs/nextjs-starter-medusa/issues
+
+### Inspiration Design
+- **Pronovias**: https://www.pronovias.com/fr/
+- **Design élégant** avec focus sur les visuels
+- **Navigation intuitive** par catégories
+
+## Licence
+
+© 2024 Allure Création. Tous droits réservés.
+
+---
+
+**Prêt à commencer ?** Suivez les instructions dans **[SETUP.md](./SETUP.md)** pour démarrer le backend Medusa et commencer à personnaliser votre site ! 👗✨
