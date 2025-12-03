@@ -1,0 +1,324 @@
+/* Google Fonts - Style Pronovias */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================
+   BASE STYLES - PRONOVIAS
+   ========================== */
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #000000;
+  background: #FFFFFF;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: #000000;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 250ms ease;
+}
+
+a:hover {
+  opacity: 0.7;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ==========================
+   PRONOVIAS COMPONENTS
+   ========================== */
+
+/* Primary Button - Noir */
+.btn-pronovias-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  background: #000000;
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: none;
+  transition: all 250ms ease;
+  cursor: pointer;
+  min-height: 3.5rem;
+}
+
+.btn-pronovias-primary:hover {
+  background: #1a1a1a;
+}
+
+.btn-pronovias-primary:active {
+  background: #000000;
+  transform: scale(0.98);
+}
+
+/* Secondary Button - Outlined */
+.btn-pronovias-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  background: transparent;
+  color: #000000;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 1px solid #000000;
+  transition: all 250ms ease;
+  cursor: pointer;
+  min-height: 3.5rem;
+}
+
+.btn-pronovias-secondary:hover {
+  background: #000000;
+  color: #FFFFFF;
+}
+
+.btn-pronovias-secondary:active {
+  transform: scale(0.98);
+}
+
+/* Text Link */
+.link-pronovias {
+  position: relative;
+  display: inline-block;
+  color: #000000;
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-decoration: none;
+  transition: opacity 250ms ease;
+}
+
+.link-pronovias::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #000000;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 250ms ease;
+}
+
+.link-pronovias:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Product Card - Minimaliste */
+.product-card-pronovias {
+  display: block;
+  transition: opacity 250ms ease;
+}
+
+.product-card-pronovias:hover {
+  opacity: 0.8;
+}
+
+.product-card-pronovias img {
+  transition: transform 500ms ease;
+}
+
+.product-card-pronovias:hover img {
+  transform: scale(1.02);
+}
+
+/* ==========================
+   UTILITIES
+   ========================== */
+
+/* Container */
+.container-pronovias {
+  width: 100%;
+  max-width: 1920px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-pronovias {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-pronovias {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Section Spacing */
+.section-pronovias {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+@media (min-width: 1024px) {
+  .section-pronovias {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+/* ==========================
+   ANIMATIONS
+   ========================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 500ms ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in {
+  animation: slideIn 500ms ease-out;
+}
+
+/* Loading skeleton */
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-pronovias {
+  background: linear-gradient(
+    90deg,
+    #F5F5F5 0%,
+    #FAFAFA 50%,
+    #F5F5F5 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+/* ==========================
+   ACCESSIBILITY
+   ========================== */
+
+*:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 2px;
+}
+
+/* ==========================
+   MOBILE OPTIMIZATIONS
+   ========================== */
+
+@media (max-width: 1024px) {
+  /* Touch-friendly tap targets */
+  a, button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent double-tap zoom */
+  * {
+    touch-action: manipulation;
+  }
+
+  /* Smooth scrolling */
+  html {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Remove tap highlight */
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ==========================
+   SCROLLBAR - PRONOVIAS
+   ========================== */
+
+/* Chrome, Safari, Edge */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CCCCCC;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #CCCCCC #F5F5F5;
+}
