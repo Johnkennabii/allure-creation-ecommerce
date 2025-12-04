@@ -17,7 +17,7 @@ fi
 
 COMMIT_MESSAGE="$1"
 VPS_USER="root"
-VPS_HOST="allurecreation-server"  # ou l'IP: 65.21.53.243
+VPS_HOST="65.21.53.243"
 VPS_PATH="/var/www/allure-creation-ecommerce"
 
 echo ""
