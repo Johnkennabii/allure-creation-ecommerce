@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import "./globals.css"
 import { CartProvider } from "@/context/CartContext"
-import MobileBottomNav from "@/components/MobileBottomNav"
 
 export const metadata: Metadata = {
   title: "Allure Création - Robes de Mariée, Soirée et Cocktail",
@@ -15,10 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className="pb-20 lg:pb-0">
+      <body>
         <CartProvider>
           {children}
-          <MobileBottomNav />
         </CartProvider>
       </body>
     </html>

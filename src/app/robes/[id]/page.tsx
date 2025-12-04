@@ -28,20 +28,20 @@ export default async function DressDetailPage({ params }: PageProps) {
         {/* Breadcrumb Pronovias */}
         <div className="bg-pronovias-white border-b border-pronovias-border">
           <div className="container-pronovias py-4">
-            <nav className="flex items-center gap-2 text-xs uppercase tracking-widest">
-              <Link href="/" className="text-pronovias-text-secondary hover:text-pronovias-black transition-colors duration-250">
+            <nav className="flex items-center gap-1 sm:gap-2 text-xs uppercase tracking-wide sm:tracking-widest overflow-x-auto">
+              <Link href="/" className="text-pronovias-text-secondary hover:text-pronovias-black transition-colors duration-250 whitespace-nowrap inline-flex items-center">
                 Accueil
               </Link>
-              <svg className="w-3 h-3 text-pronovias-text-light" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+              <svg className="w-3 h-3 text-pronovias-text-light flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
-              <Link href="/robes" className="text-pronovias-text-secondary hover:text-pronovias-black transition-colors duration-250">
+              <Link href="/robes" className="text-pronovias-text-secondary hover:text-pronovias-black transition-colors duration-250 whitespace-nowrap inline-flex items-center">
                 Robes
               </Link>
-              <svg className="w-3 h-3 text-pronovias-text-light" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+              <svg className="w-3 h-3 text-pronovias-text-light flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
-              <span className="text-pronovias-black truncate">{dress.name}</span>
+              <span className="text-pronovias-black truncate whitespace-nowrap inline-flex items-center">{dress.name}</span>
             </nav>
           </div>
         </div>

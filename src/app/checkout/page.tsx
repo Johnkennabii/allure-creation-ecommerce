@@ -35,11 +35,17 @@ export default function CheckoutPage() {
     notes: "",
   })
 
-  // Calculer le total
+  // Calculer le total (recalculer les jours pour éviter les erreurs de cache)
   const total = items.reduce((sum, item) => {
     const dailyPrice = parseFloat(item.dress.price_per_day_ttc || "0")
-    const days = item.rentalDates?.days || 0
-    return sum + dailyPrice * days
+    if (item.rentalDates) {
+      const start = new Date(item.rentalDates.startDate)
+      const end = new Date(item.rentalDates.endDate)
+      const diffTime = end.getTime() - start.getTime()
+      const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+      return sum + dailyPrice * days
+    }
+    return sum
   }, 0)
 
   // Vérifier si toutes les robes ont des dates
@@ -220,43 +226,50 @@ export default function CheckoutPage() {
                             />
                           </div>
                         ) : item.rentalDates ? (
-                          <div className="bg-gray-50 p-3 rounded">
-                            <div className="flex justify-between items-center">
-                              <div>
-                                <p className="text-sm font-medium text-gray-700">
-                                  Du{" "}
-                                  {new Date(
-                                    item.rentalDates.startDate
-                                  ).toLocaleDateString("fr-FR")}{" "}
-                                  au{" "}
-                                  {new Date(
-                                    item.rentalDates.endDate
-                                  ).toLocaleDateString("fr-FR")}
-                                </p>
-                                <p className="text-xs text-gray-600 mt-1">
-                                  {item.rentalDates.days} jour
-                                  {item.rentalDates.days > 1 ? "s" : ""} •{" "}
-                                  {parseFloat(item.dress.price_per_day_ttc).toFixed(
-                                    2
-                                  )}{" "}
-                                  € / jour
+                          (() => {
+                            // Recalculer les jours pour éviter les erreurs de cache
+                            const start = new Date(item.rentalDates.startDate)
+                            const end = new Date(item.rentalDates.endDate)
+                            const diffTime = end.getTime() - start.getTime()
+                            const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+                            const dailyPrice = parseFloat(item.dress.price_per_day_ttc)
+                            const totalPrice = dailyPrice * days
+
+                            return (
+                              <div className="bg-gray-50 p-3 rounded">
+                                <div className="flex justify-between items-center">
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-700">
+                                      Du{" "}
+                                      {new Date(
+                                        item.rentalDates.startDate
+                                      ).toLocaleDateString("fr-FR")}{" "}
+                                      au{" "}
+                                      {new Date(
+                                        item.rentalDates.endDate
+                                      ).toLocaleDateString("fr-FR")}
+                                    </p>
+                                    <p className="text-xs text-gray-600 mt-1">
+                                      {days} jour
+                                      {days > 1 ? "s" : ""} •{" "}
+                                      {dailyPrice.toFixed(2)}{" "}
+                                      € / jour
+                                    </p>
+                                  </div>
+                                  <button
+                                    onClick={() => setEditingItemId(item.dress.id)}
+                                    className="text-sm text-accent hover:underline"
+                                  >
+                                    Modifier
+                                  </button>
+                                </div>
+                                <p className="text-right font-semibold text-lg mt-2">
+                                  {totalPrice.toFixed(2)}{" "}
+                                  €
                                 </p>
                               </div>
-                              <button
-                                onClick={() => setEditingItemId(item.dress.id)}
-                                className="text-sm text-accent hover:underline"
-                              >
-                                Modifier
-                              </button>
-                            </div>
-                            <p className="text-right font-semibold text-lg mt-2">
-                              {(
-                                parseFloat(item.dress.price_per_day_ttc) *
-                                item.rentalDates.days
-                              ).toFixed(2)}{" "}
-                              €
-                            </p>
-                          </div>
+                            )
+                          })()
                         ) : (
                           <div className="bg-orange-50 border border-orange-200 p-3 rounded">
                             <p className="text-sm text-orange-800 mb-2">
@@ -521,59 +534,67 @@ export default function CheckoutPage() {
                 <div className="mb-6">
                   <h3 className="font-semibold mb-3">Robes sélectionnées</h3>
                   <div className="space-y-3">
-                    {items.map((item) => (
-                      <div
-                        key={item.dress.id}
-                        className="flex gap-3 p-3 bg-gray-50 rounded"
-                      >
-                        <div className="relative w-16 h-20 flex-shrink-0 bg-gray-100 rounded overflow-hidden">
-                          {item.dress.images?.[0] && (
-                            <Image
-                              src={item.dress.images[0]}
-                              alt={item.dress.name}
-                              fill
-                              className="object-cover"
-                              sizes="64px"
-                            />
-                          )}
+                    {items.map((item) => {
+                      // Recalculer les jours pour éviter les erreurs de cache
+                      let days = 0
+                      let totalPrice = 0
+                      if (item.rentalDates) {
+                        const start = new Date(item.rentalDates.startDate)
+                        const end = new Date(item.rentalDates.endDate)
+                        const diffTime = end.getTime() - start.getTime()
+                        days = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+                        totalPrice = parseFloat(item.dress.price_per_day_ttc) * days
+                      }
+
+                      return (
+                        <div
+                          key={item.dress.id}
+                          className="flex gap-3 p-3 bg-gray-50 rounded"
+                        >
+                          <div className="relative w-16 h-20 flex-shrink-0 bg-gray-100 rounded overflow-hidden">
+                            {item.dress.images?.[0] && (
+                              <Image
+                                src={item.dress.images[0]}
+                                alt={item.dress.name}
+                                fill
+                                className="object-cover"
+                                sizes="64px"
+                              />
+                            )}
+                          </div>
+                          <div className="flex-1 text-sm">
+                            <p className="font-semibold">{item.dress.name}</p>
+                            <p className="text-xs text-gray-600">
+                              {item.dress.reference}
+                            </p>
+                            {item.rentalDates && (
+                              <>
+                                <p className="text-xs text-gray-600 mt-1">
+                                  Du{" "}
+                                  {new Date(
+                                    item.rentalDates.startDate
+                                  ).toLocaleDateString("fr-FR")}{" "}
+                                  au{" "}
+                                  {new Date(
+                                    item.rentalDates.endDate
+                                  ).toLocaleDateString("fr-FR")}
+                                </p>
+                                <p className="text-xs text-gray-600">
+                                  {days} jour
+                                  {days > 1 ? "s" : ""}
+                                </p>
+                              </>
+                            )}
+                          </div>
+                          <div className="text-right">
+                            <p className="font-semibold text-accent">
+                              {totalPrice.toFixed(2)}{" "}
+                              €
+                            </p>
+                          </div>
                         </div>
-                        <div className="flex-1 text-sm">
-                          <p className="font-semibold">{item.dress.name}</p>
-                          <p className="text-xs text-gray-600">
-                            {item.dress.reference}
-                          </p>
-                          {item.rentalDates && (
-                            <>
-                              <p className="text-xs text-gray-600 mt-1">
-                                Du{" "}
-                                {new Date(
-                                  item.rentalDates.startDate
-                                ).toLocaleDateString("fr-FR")}{" "}
-                                au{" "}
-                                {new Date(
-                                  item.rentalDates.endDate
-                                ).toLocaleDateString("fr-FR")}
-                              </p>
-                              <p className="text-xs text-gray-600">
-                                {item.rentalDates.days} jour
-                                {item.rentalDates.days > 1 ? "s" : ""}
-                              </p>
-                            </>
-                          )}
-                        </div>
-                        <div className="text-right">
-                          <p className="font-semibold text-accent">
-                            {item.rentalDates
-                              ? (
-                                  parseFloat(item.dress.price_per_day_ttc) *
-                                  item.rentalDates.days
-                                ).toFixed(2)
-                              : "0.00"}{" "}
-                            €
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+                      )
+                    })}
                   </div>
                 </div>
 

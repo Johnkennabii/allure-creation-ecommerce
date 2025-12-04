@@ -1,11 +1,7 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { checkDressAvailability } from "@/lib/api"
-import flatpickr from "flatpickr"
-import { French } from "flatpickr/dist/l10n/fr"
-import "flatpickr/dist/flatpickr.min.css"
-import type { Instance } from "flatpickr/dist/types/instance"
 
 interface RentalDatePickerPronoviasProps {
   dressId: string
@@ -25,96 +21,22 @@ export default function RentalDatePickerPronovias({
   const [days, setDays] = useState(0)
   const [totalPrice, setTotalPrice] = useState(0)
 
-  const startDateRef = useRef<HTMLInputElement>(null)
-  const endDateRef = useRef<HTMLInputElement>(null)
-  const startPickerRef = useRef<Instance | null>(null)
-  const endPickerRef = useRef<Instance | null>(null)
-
-  // Initialize Flatpickr
-  useEffect(() => {
-    const initPickers = () => {
-      // Date de début
-      if (startDateRef.current && !startPickerRef.current) {
-        startPickerRef.current = flatpickr(startDateRef.current, {
-          locale: French,
-          dateFormat: "d/m/Y",
-          minDate: "today",
-          allowInput: false,
-          clickOpens: true,
-          mode: "single",
-          inline: false,
-          static: false,
-          position: "auto",
-          disableMobile: false,
-          onChange: (selectedDates) => {
-            if (selectedDates.length > 0) {
-              const date = selectedDates[0].toISOString().split("T")[0]
-              setStartDate(date)
-
-              // Activer et mettre à jour le date picker de fin
-              if (endPickerRef.current) {
-                endPickerRef.current.set("minDate", selectedDates[0])
-                if (endDateRef.current) {
-                  endDateRef.current.disabled = false
-                }
-              }
-            }
-          },
-        })
-      }
-
-      // Date de fin
-      if (endDateRef.current && !endPickerRef.current) {
-        endPickerRef.current = flatpickr(endDateRef.current, {
-          locale: French,
-          dateFormat: "d/m/Y",
-          minDate: "today",
-          allowInput: false,
-          clickOpens: true,
-          mode: "single",
-          inline: false,
-          static: false,
-          position: "auto",
-          disableMobile: false,
-          onChange: (selectedDates) => {
-            if (selectedDates.length > 0) {
-              const date = selectedDates[0].toISOString().split("T")[0]
-              setEndDate(date)
-            }
-          },
-        })
-      }
-    }
-
-    // Délai pour s'assurer que le DOM est prêt
-    const timer = setTimeout(initPickers, 150)
-
-    return () => {
-      clearTimeout(timer)
-      if (startPickerRef.current) {
-        startPickerRef.current.destroy()
-        startPickerRef.current = null
-      }
-      if (endPickerRef.current) {
-        endPickerRef.current.destroy()
-        endPickerRef.current = null
-      }
-    }
-  }, [])
+  // Date minimale = aujourd'hui
+  const today = new Date().toISOString().split("T")[0]
 
   // Calculate days and price when dates change
   useEffect(() => {
     if (startDate && endDate) {
       const start = new Date(startDate)
       const end = new Date(endDate)
-      const diffTime = Math.abs(end.getTime() - start.getTime())
+      const diffTime = end.getTime() - start.getTime()
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 
       setDays(diffDays)
       setTotalPrice(diffDays * pricePerDay)
 
       // Check availability
-      checkAvailability(startDate, endDate)
+      checkAvailability(startDate, endDate, diffDays, diffDays * pricePerDay)
     } else {
       setDays(0)
       setTotalPrice(0)
@@ -122,7 +44,7 @@ export default function RentalDatePickerPronovias({
     }
   }, [startDate, endDate, dressId, pricePerDay])
 
-  const checkAvailability = async (start: string, end: string) => {
+  const checkAvailability = async (start: string, end: string, calculatedDays: number, calculatedTotal: number) => {
     setIsChecking(true)
     try {
       // Convertir les dates au format ISO avec heure (midi UTC) pour éviter les décalages
@@ -133,7 +55,7 @@ export default function RentalDatePickerPronovias({
       setIsAvailable(result.isAvailable)
 
       if (result.isAvailable) {
-        onDatesSelected(start, end, days, totalPrice)
+        onDatesSelected(start, end, calculatedDays, calculatedTotal)
       }
     } catch (error) {
       console.error("Error checking availability:", error)
@@ -165,10 +87,12 @@ export default function RentalDatePickerPronovias({
               Date de début
             </label>
             <input
-              ref={startDateRef}
-              type="text"
-              placeholder="JJ/MM/AAAA"
-              className="w-full px-4 py-3 text-sm border border-pronovias-border focus:outline-none focus:border-pronovias-black transition-colors duration-250 cursor-pointer bg-pronovias-white"
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              min={today}
+              className="w-full px-4 py-3 text-sm border border-pronovias-border focus:outline-none focus:border-pronovias-black transition-colors duration-250 bg-pronovias-white appearance-none"
+              style={{ colorScheme: 'light' }}
             />
           </div>
 
@@ -178,11 +102,13 @@ export default function RentalDatePickerPronovias({
               Date de fin
             </label>
             <input
-              ref={endDateRef}
-              type="text"
-              placeholder="JJ/MM/AAAA"
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              min={startDate || today}
               disabled={!startDate}
-              className="w-full px-4 py-3 text-sm border border-pronovias-border focus:outline-none focus:border-pronovias-black transition-colors duration-250 cursor-pointer bg-pronovias-white disabled:bg-pronovias-gray-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-3 text-sm border border-pronovias-border focus:outline-none focus:border-pronovias-black transition-colors duration-250 bg-pronovias-white disabled:bg-pronovias-gray-50 disabled:cursor-not-allowed appearance-none"
+              style={{ colorScheme: 'light' }}
             />
           </div>
         </div>
@@ -243,160 +169,6 @@ export default function RentalDatePickerPronovias({
           </div>
         )}
       </div>
-
-      {/* Styles globaux pour Flatpickr - Style Pronovias */}
-      <style jsx global>{`
-        /* Calendrier principal */
-        .flatpickr-calendar {
-          background: white !important;
-          border: 1px solid #e5e7eb !important;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
-          padding: 0 !important;
-          font-family: inherit !important;
-          z-index: 99999 !important;
-        }
-
-        .flatpickr-calendar.open {
-          z-index: 99999 !important;
-        }
-
-        /* En-tête du mois */
-        .flatpickr-months {
-          background: transparent !important;
-          padding: 16px !important;
-          border-bottom: 1px solid #e5e7eb !important;
-        }
-
-        .flatpickr-current-month {
-          font-size: 14px !important;
-          font-weight: 500 !important;
-          color: #000 !important;
-          text-transform: uppercase !important;
-          letter-spacing: 0.05em !important;
-        }
-
-        .flatpickr-current-month .flatpickr-monthDropdown-months {
-          background: transparent !important;
-          font-weight: 500 !important;
-          color: #000 !important;
-          padding: 4px 8px !important;
-        }
-
-        .flatpickr-current-month .flatpickr-monthDropdown-months:hover {
-          background: #f9fafb !important;
-        }
-
-        /* Boutons navigation */
-        .flatpickr-prev-month,
-        .flatpickr-next-month {
-          padding: 8px !important;
-          transition: all 0.2s !important;
-        }
-
-        .flatpickr-prev-month:hover,
-        .flatpickr-next-month:hover {
-          background: #f9fafb !important;
-        }
-
-        .flatpickr-prev-month:hover svg,
-        .flatpickr-next-month:hover svg {
-          fill: #000 !important;
-        }
-
-        /* Jours de la semaine */
-        .flatpickr-weekdays {
-          background: transparent !important;
-          padding: 12px 0 !important;
-          margin-bottom: 8px !important;
-        }
-
-        .flatpickr-weekday {
-          color: #6b7280 !important;
-          font-weight: 500 !important;
-          font-size: 11px !important;
-          text-transform: uppercase !important;
-          letter-spacing: 0.1em !important;
-        }
-
-        /* Conteneur des jours */
-        .flatpickr-days {
-          padding: 0 16px 16px !important;
-        }
-
-        .dayContainer {
-          padding: 0 !important;
-          gap: 2px !important;
-        }
-
-        /* Jours individuels */
-        .flatpickr-day {
-          color: #111827 !important;
-          font-weight: 400 !important;
-          border: 1px solid transparent !important;
-          height: 40px !important;
-          line-height: 38px !important;
-          max-width: 40px !important;
-          transition: all 0.15s !important;
-        }
-
-        .flatpickr-day:hover:not(.flatpickr-disabled):not(.selected) {
-          background: #f9fafb !important;
-          border-color: #e5e7eb !important;
-          color: #000 !important;
-        }
-
-        /* Jour sélectionné */
-        .flatpickr-day.selected {
-          background: #000 !important;
-          border-color: #000 !important;
-          color: white !important;
-          font-weight: 500 !important;
-        }
-
-        .flatpickr-day.selected:hover {
-          background: #000 !important;
-          border-color: #000 !important;
-        }
-
-        /* Jour actuel (aujourd'hui) */
-        .flatpickr-day.today:not(.selected) {
-          border-color: #000 !important;
-          color: #000 !important;
-          font-weight: 500 !important;
-          background: transparent !important;
-        }
-
-        .flatpickr-day.today:hover:not(.selected) {
-          background: #f9fafb !important;
-          border-color: #000 !important;
-        }
-
-        /* Jours désactivés */
-        .flatpickr-day.flatpickr-disabled {
-          color: #d1d5db !important;
-          background: transparent !important;
-        }
-
-        .flatpickr-day.flatpickr-disabled:hover {
-          background: transparent !important;
-          border-color: transparent !important;
-          cursor: not-allowed !important;
-        }
-
-        /* Styles responsive mobile */
-        @media (max-width: 768px) {
-          .flatpickr-calendar {
-            width: 95vw !important;
-            max-width: 360px !important;
-          }
-
-          .flatpickr-day {
-            height: 42px !important;
-            line-height: 40px !important;
-            max-width: 42px !important;
-          }
-        }
-      `}</style>
     </div>
   )
 }

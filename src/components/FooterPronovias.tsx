@@ -5,34 +5,6 @@ export default function FooterPronovias() {
 
   return (
     <footer className="bg-pronovias-white border-t border-pronovias-border">
-      {/* Newsletter Section */}
-      <div className="border-b border-pronovias-border">
-        <div className="container-pronovias py-16 lg:py-20">
-          <div className="max-w-xl mx-auto text-center space-y-6">
-            <h3 className="text-2xl lg:text-3xl font-light text-pronovias-black">
-              Restez informée
-            </h3>
-            <p className="text-sm text-pronovias-text-secondary">
-              Inscrivez-vous à notre newsletter pour découvrir nos nouvelles collections et offres exclusives
-            </p>
-            <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Votre adresse email"
-                className="flex-1 px-4 py-3 border border-pronovias-border text-sm focus:outline-none focus:border-pronovias-black transition-colors duration-250"
-                required
-              />
-              <button
-                type="submit"
-                className="btn-pronovias-primary whitespace-nowrap"
-              >
-                S'inscrire
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-
       {/* Footer Links */}
       <div className="container-pronovias py-12 lg:py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
